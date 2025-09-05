@@ -1,0 +1,598 @@
+/* General Resets and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5; /* Light Gray Background */
+  color: #333;
+  line-height: 1.6;
+  overscroll-behavior-y: contain; /* Prevents pull-to-refresh on mobile for better PWA feel */
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* App Header */
+.App-header {
+  background: linear-gradient(135deg, #4A90E2 0%, #50E3C2 100%); /* Gradient Blue to Teal */
+  padding: 25px 20px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.App-header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2em;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.App-header p {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px; /* Max content width */
+  margin: 0 auto; /* Center content */
+}
+
+/* Card-like container for different game states */
+.card-container {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 30px auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-container h2 {
+  font-family: 'Montserrat', sans-serif;
+  color: #4A90E2;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+/* Username Prompt & Lobby */
+.username-prompt, .lobby {
+  composes: card-container; /* Inherit card styles */
+}
+
+.username-prompt input[type="text"] {
+  display: block;     /* 1. Make it a block-level element */
+  width: 100%;        /* 2. Allow it to try and take full width initially */
+  max-width: 350px;   /* 3. Cap its width (ADJUST THIS VALUE AS NEEDED) */
+  margin-left: auto;  /* 4. Auto margin on the left */
+  margin-right: auto; /* 5. Auto margin on the right */
+
+  /* Your other existing styles for padding, border, etc. */
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.username-prompt input[type="text"]:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  outline: none;
+}
+
+/* General Button Styling */
+button, .button-style { /* Added .button-style for potential <a> tags styled as buttons */
+  background-color: #4A90E2; /* Primary Blue */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+  text-decoration: none; /* For <a> tags */
+  display: inline-block; /* For <a> tags */
+}
+
+button:hover, .button-style:hover {
+  background-color: #357ABD; /* Darker Blue */
+}
+
+button:active, .button-style:active {
+  transform: translateY(1px);
+}
+
+button:disabled, .button-style:disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.mode-selection {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+.mode-selection button {
+  flex-grow: 1;
+  max-width: 200px;
+}
+.mode-selection button:last-child { /* Example: Style BR button differently */
+  background-color: #F5A623; /* Orange */
+}
+.mode-selection button:last-child:hover {
+  background-color: #d98e1a; /* Darker Orange */
+}
+
+.bot-difficulty-selector {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+}
+.bot-difficulty-selector > label { /* The main "Bot Difficulty:" label */
+  font-weight: 500;
+  color: #4A4A4A;
+  margin-right: 15px;
+}
+.bot-difficulty-selector label { /* Individual radio labels */
+  margin-right: 15px;
+  font-size: 0.95em;
+  cursor: pointer;
+}
+.bot-difficulty-selector input[type="radio"] {
+  margin-right: 5px;
+  vertical-align: middle;
+  accent-color: #4A90E2; /* Color of the radio button itself */
+}
+
+
+.error-message {
+  color: #D0021B; /* Red */
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.game-in-progress-notice {
+  color: #777;
+  font-style: italic;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 4px;
+}
+
+/* Lobby Specifics */
+.lobby p {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+}
+.lobby strong {
+  color: #4A90E2;
+  font-size: 1.3em;
+}
+.lobby h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: #555;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 5px;
+}
+.lobby ul {
+  list-style: none;
+  padding: 0;
+}
+.lobby li {
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px solid #e8e8e8;
+  font-weight: 500;
+}
+.lobby li.my-name-in-lobby {
+  background-color: #e6f7ff;
+  border-left: 4px solid #4A90E2;
+  color: #357ABD;
+}
+
+
+/* Game Screen */
+.game-screen {
+  display: flex;
+  flex-direction: column; /* Stack main and sidebar on small screens */
+  gap: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@media (min-width: 992px) { /* Larger screens: sidebar next to main content */
+  .game-screen {
+    flex-direction: row;
+  }
+}
+
+.game-main-content {
+  flex: 3; /* Takes more space */
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.game-sidebar {
+  flex: 1; /* Takes less space */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Timer */
+.timer {
+  font-size: 1.3em;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  padding: 12px;
+  background-color: #e6f7ff; /* Light Blue background */
+  border: 1px solid #91d5ff;
+  color: #096dd9; /* Darker Blue text */
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.timer span {
+  display: inline-block;
+  min-width: 40px; /* Ensure it doesn't jump too much */
+}
+.timer-low {
+  color: #D0021B !important; /* Red for low time */
+  animation: pulse 0.7s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Player Counter (BR) */
+.player-counter {
+  font-size: 0.95em;
+  font-weight: 500;
+  background-color: #f6ffed;
+  border: 1px solid #b7eb8f;
+  color: #389e0d;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Elimination Message (BR) */
+.elimination-message {
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
+  color: #cf1322;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+.elimination-message h2 {
+  margin-top: 0;
+  color: #cf1322;
+  font-family: 'Montserrat', sans-serif;
+}
+.elimination-message.spectator-view p:last-child {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+
+/* Question Container */
+.question-container {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #fafafa;
+  border-left: 5px solid #4A90E2;
+  border-radius: 0 6px 6px 0;
+}
+.question-container h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: #777;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.question-text {
+  font-size: 1.4em;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Options Container */
+.options-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack on small screens */
+  gap: 12px;
+  margin-bottom: 25px;
+}
+@media (min-width: 768px) { /* Two columns on medium screens and up */
+  .options-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.option-button {
+  padding: 15px 20px;
+  font-size: 1.05em;
+  background-color: #fff;
+  color: #4A90E2;
+  border: 2px solid #4A90E2;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+  font-weight: 500;
+}
+.option-button:hover:not(:disabled) {
+  background-color: #e6f7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(74,144,226,0.2);
+}
+.option-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  border-color: #ccc;
+  color: #777;
+}
+.option-button.selected {
+  background-color: #4A90E2;
+  color: white;
+  border-color: #357ABD;
+}
+.option-button.correct {
+  background-color: #50E3C2 !important; /* Teal */
+  border-color: #3dbba2 !important;
+  color: white !important;
+  animation: correctAnswerPulse 0.5s ease;
+}
+@keyframes correctAnswerPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.option-button.incorrect {
+  background-color: #F5A623 !important; /* Orange */
+  border-color: #d98e1a !important;
+  color: white !important;
+  opacity: 0.8 !important;
+}
+.spectating .option-button, .option-button.spectator-option { /* Spectator specific */
+  background-color: #e9ecef !important;
+  border-color: #ced4da !important;
+  color: #6c757d !important;
+  opacity: 0.8 !important;
+  cursor: default !important;
+}
+.spectating .option-button:hover, .option-button.spectator-option:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Question Feedback */
+.question-feedback {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+.question-feedback p strong {
+  color: #50E3C2; /* Teal for correct answer display */
+}
+.question-feedback h3 {
+  font-size: 1.1em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #4A4A4A;
+}
+.question-feedback ul { list-style: none; padding: 0; }
+.question-feedback li { font-size: 0.95em; padding: 3px 0; }
+
+
+/* Helps Panel */
+.helps-panel {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+}
+.helps-panel h4 {
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 10px;
+  color: #4A4A4A;
+}
+.helps-panel button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #555;
+}
+.helps-panel button:hover:not(:disabled) {
+  background-color: #e9e9e9;
+  border-color: #bbb;
+}
+.helps-panel button:disabled {
+  background-color: #f0f0f0;
+  border-color: #ddd;
+  color: #aaa;
+}
+.helps-panel button span { /* For the check/cross emoji if you use them */
+  margin-left: 5px;
+}
+
+/* Scoreboard & Chat (Sidebar items) */
+.scoreboard, .chat-container {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.scoreboard h4, .chat-container h4 {
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 10px;
+  color: #4A90E2;
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 8px;
+}
+.scoreboard ul { list-style: none; padding: 0; }
+.scoreboard li { padding: 5px 0; font-size: 0.9em; border-bottom: 1px dashed #f0f0f0; }
+.scoreboard li:last-child { border-bottom: none; }
+.scoreboard .my-score { font-weight: bold; color: #357ABD; }
+.scoreboard li span { /* For bot indicator */
+  font-size: 0.8em;
+  color: #777;
+  margin-left: 5px;
+}
+
+/* Ensure chat alignment: left by default, my messages right-aligned */
+.chat-container { text-align: left; }
+.chat-messages { display: flex; flex-direction: column; }
+.chat-message { display: flex; width: 100%; }
+.other-message { justify-content: flex-start; text-align: left; }
+.my-message { justify-content: flex-end; text-align: right; }
+.system-message { justify-content: center; }
+
+
+/* Chat Styling */
+.chat-messages {
+  height: 200px; /* Or max-height and flex-grow */
+  overflow-y: auto;
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fdfdfd;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.chat-message {
+  padding: 5px 0;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+.chat-message strong {
+  color: #4A90E2;
+}
+.my-message { text-align: right; }
+.my-message strong { color: #50E3C2; } /* Current player's name in chat */
+.my-message span {
+  background-color: #e6f7ff;
+  padding: 6px 10px;
+  border-radius: 10px 10px 0 10px;
+  display: inline-block;
+}
+.other-message span {
+  background-color: #f0f0f0;
+  padding: 6px 10px;
+  border-radius: 10px 10px 10px 0;
+  display: inline-block;
+}
+
+.system-message {
+  text-align: center;
+  font-style: italic;
+  color: #9B9B9B;
+  font-size: 0.85em;
+  padding: 8px 0;
+}
+.chat-emoji { font-size: 1.6em; vertical-align: middle; }
+
+.chat-input { display: flex; gap: 8px; margin-bottom: 8px; }
+.chat-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 0.95em;
+}
+.chat-input input:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 0 2px rgba(74,144,226,0.2);
+  outline: none;
+}
+.chat-input button { padding: 10px 15px; font-size: 0.95em; }
+
+.emoji-panel { text-align: left; }
+.emoji-panel button {
+  background: none; border: none; font-size: 1.5em;
+  cursor: pointer; padding: 5px 8px; border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.emoji-panel button:hover { background-color: #e8e8e8; }
+
+/* Leaderboard */
+.leaderboard {
+  composes: card-container;
+}
+.leaderboard ol { list-style-position: inside; padding-left: 0; }
+.leaderboard li {
+  font-size: 1.1em;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-weight: 500;
+}
+.leaderboard li:first-child {
+  color: #4A90E2; /* Winner highlight */
+  font-weight: 700;
+  font-size: 1.2em;
+}
+.leaderboard li span { /* For trophy or bot text */
+  margin-left: 8px;
+  font-weight: normal;
+  color: #777;
+}
+.leaderboard button { margin-top: 25px; }
+
+/* Utility Classes (Optional) */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+/* ... more utility classes as needed ... */
