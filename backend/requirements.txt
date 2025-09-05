@@ -1,0 +1,7 @@
+Flask
+Flask-SocketIO
+python-dotenv
+pandas
+openai
+eventlet  # Or gevent, for SocketIO deployment
+google-cloud-aiplatform==1.93.1
