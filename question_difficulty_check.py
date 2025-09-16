@@ -158,7 +158,7 @@ def main():
         print("Input CSV is empty. Nothing to process.")
         return
 
-    # Make a copy to modify, or work on the original if preferred
+    # Make a copy to modify
     df_filtered = df.copy()
     indices_to_delete = []
 
